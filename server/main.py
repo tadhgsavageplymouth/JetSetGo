@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 # ----- Load & index data once at startup -----
-CSV_PATH = "/Users/tadhgsavage/Desktop/Flights Generator/VectorDatabseTest/synthetic_weighted_global_flights_50k.csv"
+CSV_PATH = "/Users/tadhgsavage/Desktop/COMP3000/JetSetGo/synthetic_weighted_global_flights_50k.csv"
 df = pd.read_csv(CSV_PATH)
 df["departure_datetime"] = pd.to_datetime(df["departure_datetime"], errors="coerce")
 df = df.dropna(subset=["departure_datetime"])
