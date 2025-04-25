@@ -1,2 +1,2 @@
 # JetSetGo
-COMP3000
+COMP3000 Project
