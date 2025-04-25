@@ -1,5 +1,3 @@
-/* client/src/pages/Settings.module.css */
-
 .container {
     max-width: 500px;
     margin: 4rem auto;
@@ -73,4 +71,3 @@
   .button:hover {
     background-color: #005bb5;
   }
-  
