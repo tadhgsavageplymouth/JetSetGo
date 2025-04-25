@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import styles from "./Auth.module.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -21,29 +22,38 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h2>Log In</h2>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Log In</button>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Log In</h2>
+      {error && <p className={styles.error}>{error}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label className={styles.formLabel}>Email</label>
+          <input
+            className={styles.formInput}
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.formLabel}>Password</label>
+          <input
+            className={styles.formInput}
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button className={styles.button} type="submit">Log In</button>
       </form>
-      <p>
-        Need an account? <Link to="/register">Register</Link>
-      </p>
+      <div className={styles.linkGroup}>
+        Need an account? <Link className={styles.link} to="/register">Register</Link>
+      </div>
+      <div className={styles.linkGroup}>
+        <Link className={styles.link} to="/faq">Read FAQ</Link>
+      </div>
     </div>
   );
 }

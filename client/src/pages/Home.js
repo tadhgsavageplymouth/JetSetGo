@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import styles from "./Home.module.css";
 
 export default function Home() {
   const { currentUser, logout } = useAuth();
@@ -16,15 +17,13 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <h2>Welcome, {currentUser.email}</h2>
-      <button onClick={handleLogout}>Log Out</button>
-      <p>
-        Go to <Link to="/settings">Settings</Link>
-      </p>
-      <p>
-        Read our <Link to="/faq">FAQ</Link>
-      </p>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Welcome, {currentUser.email}</h2>
+      <button className={styles.button} onClick={handleLogout}>Log Out</button>
+      <div className={styles.links}>
+        <Link className={styles.link} to="/settings">Settings</Link>
+        <Link className={styles.link} to="/faq">FAQ</Link>
+      </div>
     </div>
   );
 }
