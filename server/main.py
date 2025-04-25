@@ -6,7 +6,6 @@ import numpy as np
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 import faiss
 import calendar
-import os
 
 # ----- FastAPI app setup -----
 app = FastAPI()
@@ -45,14 +44,15 @@ df["price_log"] = np.log1p(df["price_gbp"])
 encoder = OneHotEncoder(sparse_output=False).fit(df[["Holiday Type"]])
 scaler  = MinMaxScaler().fit(df[["price_log", "destination_temp_c"]])
 
-holiday_enc = encoder.transform(df[["Holiday Type"]])
-num_scaled  = scaler.transform(df[["price_log", "destination_temp_c"]])
+# precompute full matrix for potential reuse
+holiday_enc_full = encoder.transform(df[["Holiday Type"]])
+num_scaled_full  = scaler.transform(df[["price_log", "destination_temp_c"]])
 # invert price dimension so lower prices are closer
-num_scaled[:, 0] = 1 - num_scaled[:, 0]
+num_scaled_full[:, 0] = 1 - num_scaled_full[:, 0]
+vectors_full     = np.hstack([holiday_enc_full, num_scaled_full]).astype("float32")
 
-vectors = np.hstack([holiday_enc, num_scaled]).astype("float32")
-index   = faiss.IndexFlatL2(vectors.shape[1])
-index.add(vectors)
+# Dimensions
+vector_dim = vectors_full.shape[1]
 
 # ----- Request model -----
 class SearchParams(BaseModel):
@@ -82,27 +82,37 @@ def search(params: SearchParams):
     start = pd.Timestamp(f"{params.year}-{month_idx:02d}-01")
     end   = (start + pd.offsets.MonthEnd(1)) + pd.Timedelta(days=1)
 
-    sub = df[
+    mask = (
         (df.origin_city == params.origin_city) &
         (df.departure_datetime >= start) &
         (df.departure_datetime < end)
-    ]
-    if sub.empty:
+    )
+    candidate_idxs = np.where(mask)[0]
+    if candidate_idxs.size == 0:
         return []
 
     # Build query vector
     qlog = np.log1p(params.max_price)
-    qcat = encoder.transform([[params.holiday_type]])
-    qnum = scaler.transform([[qlog, climate_map[params.climate]]])
+    qcat = encoder.transform(pd.DataFrame([[params.holiday_type]], columns=["Holiday Type"]))
+    qnum = scaler.transform(pd.DataFrame([[qlog, climate_map[params.climate]]], columns=["price_log", "destination_temp_c"]))
     qnum[0, 0] = 1 - qnum[0, 0]
     qvec = np.hstack([qcat, qnum]).astype("float32")
 
-    # FAISS search
-    D, I = index.search(qvec, 20)
-    results = sub.iloc[I[0]].sort_values("price_gbp").head(5)
+    # Build a small FAISS index for the candidates
+    cand_vectors = vectors_full[candidate_idxs]
+    index = faiss.IndexFlatL2(vector_dim)
+    index.add(cand_vectors)
+
+    # Search top K among candidates
+    K = min(20, len(candidate_idxs))
+    D, I = index.search(qvec, K)
+    selected = candidate_idxs[I[0]]
+
+    # Gather and sort results
+    results_df = df.iloc[selected].sort_values("price_gbp").head(5)
 
     # Return JSON-friendly records
-    return results[[
+    return results_df[[
         "airline",
         "origin_city",
         "destination_city",
