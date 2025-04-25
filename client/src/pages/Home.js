@@ -18,8 +18,12 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Welcome, {currentUser.email}</h2>
-      <button className={styles.button} onClick={handleLogout}>Log Out</button>
+      <h2 className={styles.title}>
+        Welcome, {currentUser.displayName || currentUser.email}
+      </h2>
+      <button className={styles.button} onClick={handleLogout}>
+        Log Out
+      </button>
       <div className={styles.links}>
         <Link className={styles.link} to="/settings">Settings</Link>
         <Link className={styles.link} to="/faq">FAQ</Link>

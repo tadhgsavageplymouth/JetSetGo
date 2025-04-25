@@ -1,4 +1,3 @@
-// client/src/contexts/AuthContext.js
 import React, { useContext, useState, useEffect, createContext } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -6,7 +5,8 @@ import {
   signOut,
   onAuthStateChanged,
   updateEmail,
-  updatePassword
+  updatePassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -18,10 +18,12 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading]         = useState(true);
 
-  function register(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  // Register now accepts name, email, password
+  function register(name, email, password) {
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => updateProfile(user, { displayName: name }));
   }
 
   function login(email, password) {
@@ -56,7 +58,7 @@ export function AuthProvider({ children }) {
     login,
     logout,
     changeEmail,
-    changePassword
+    changePassword,
   };
 
   return (

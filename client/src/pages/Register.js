@@ -4,17 +4,18 @@ import { useNavigate, Link } from "react-router-dom";
 import styles from "./Auth.module.css";
 
 export default function Register() {
-  const [email, setEmail] = useState("");
+  const [name, setName]         = useState("");
+  const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError]       = useState("");
   const { register } = useAuth();
-  const navigate = useNavigate();
+  const navigate     = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       setError("");
-      await register(email, password);
+      await register(name, email, password);
       navigate("/");
     } catch {
       setError("Failed to create an account");
@@ -27,8 +28,20 @@ export default function Register() {
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label className={styles.formLabel}>Email</label>
+          <label htmlFor="name" className={styles.formLabel}>Name</label>
           <input
+            id="name"
+            className={styles.formInput}
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="email" className={styles.formLabel}>Email</label>
+          <input
+            id="email"
             className={styles.formInput}
             type="email"
             value={email}
@@ -37,8 +50,9 @@ export default function Register() {
           />
         </div>
         <div className={styles.formGroup}>
-          <label className={styles.formLabel}>Password</label>
+          <label htmlFor="password" className={styles.formLabel}>Password</label>
           <input
+            id="password"
             className={styles.formInput}
             type="password"
             value={password}
@@ -49,11 +63,12 @@ export default function Register() {
         <button className={styles.button} type="submit">Sign Up</button>
       </form>
       <div className={styles.linkGroup}>
-        Already have an account? <Link className={styles.link} to="/login">Log In</Link>
+        Already have an account?{' '}
+        <Link className={styles.link} to="/login">Log In</Link>
       </div>
       <div className={styles.linkGroup}>
         <Link className={styles.link} to="/faq">Read FAQ</Link>
       </div>
     </div>
-  );
+);
 }
