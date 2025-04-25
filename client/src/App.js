@@ -7,30 +7,33 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Settings from "./pages/Settings";
+import Faq from "./pages/Faq";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
               <ProtectedRoute>
                 <Home />
               </ProtectedRoute>
-            } 
+            }
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route 
-            path="/settings" 
+          <Route
+            path="/settings"
             element={
               <ProtectedRoute>
                 <Settings />
               </ProtectedRoute>
-            } 
+            }
           />
+          {/* Public FAQ route */}
+          <Route path="/faq" element={<Faq />} />
         </Routes>
       </AuthProvider>
     </Router>

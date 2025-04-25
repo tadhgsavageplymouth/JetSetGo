@@ -34,22 +34,22 @@ export default function Settings() {
 
       <form onSubmit={handleEmailChange}>
         <label>New Email</label>
-        <input 
-          type="email" 
-          value={email} 
-          onChange={e => setEmail(e.target.value)} 
-          required 
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
         />
         <button type="submit">Update Email</button>
       </form>
 
       <form onSubmit={handlePasswordChange}>
         <label>New Password</label>
-        <input 
-          type="password" 
-          value={password} 
-          onChange={e => setPassword(e.target.value)} 
-          required 
+        <input
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
         />
         <button type="submit">Update Password</button>
       </form>

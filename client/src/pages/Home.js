@@ -22,6 +22,9 @@ export default function Home() {
       <p>
         Go to <Link to="/settings">Settings</Link>
       </p>
+      <p>
+        Read our <Link to="/faq">FAQ</Link>
+      </p>
     </div>
   );
 }
