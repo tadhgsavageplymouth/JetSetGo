@@ -1,16 +1,18 @@
+/* File: src/pages/Faq.module.css */
 .container {
-    max-width: 800px;
-    margin: 4rem auto;
-    padding: 0 1rem;
-  }
-  
-  .title {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  
-  .list {
-    border-top: 1px solid #e0e0e0;
-  }
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+  background-color: var(--color-accent);
+  border-radius: 0.5rem;
+}
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--color-dark);
+}
+.list {
+  border-top: 1px solid var(--color-primary);
+}

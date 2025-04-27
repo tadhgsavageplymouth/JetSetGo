@@ -1,6 +1,7 @@
+// File: src/pages/Home.js
 import React from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FlightSearch from "../components/FlightSearch";
 import styles from "./Home.module.css";
 
@@ -19,20 +20,14 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Welcome, {currentUser.email}</h2>
-      <button className={styles.button} onClick={handleLogout}>
-        Log Out
-      </button>
-      <div className={styles.links}>
-        <Link className={styles.link} to="/settings">
-          Settings
-        </Link>
-        <Link className={styles.link} to="/faq">
-          FAQ
-        </Link>
+      <div className={styles.header}>
+        <h2 className={styles.title}>
+          Welcome, {currentUser.displayName || currentUser.email}
+        </h2>
+        <button className={styles.logoutButton} onClick={handleLogout}>
+          Log Out
+        </button>
       </div>
-
-      {/* ↓– our new flight‐search widget –↓ */}
       <FlightSearch />
     </div>
   );

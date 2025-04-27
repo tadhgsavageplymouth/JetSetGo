@@ -1,19 +1,30 @@
-.home {
+/* File: src/pages/Home.module.css */
+.container {
   max-width: 1024px;
   margin: 0 auto;
   padding: 2rem;
 }
-.heroSection {
-  text-align: center;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2rem;
 }
-.heroTitle {
+.title {
   font-size: 2rem;
   font-weight: bold;
-  color: #1f2937;
-  margin-top: 1rem;
+  color: var(--color-dark);
 }
-.lottieContainer {
-  display: flex;
-  justify-content: center;
+.logoutButton {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: color 0.2s;
+}
+.logoutButton:hover {
+  color: var(--color-secondary);
 }
