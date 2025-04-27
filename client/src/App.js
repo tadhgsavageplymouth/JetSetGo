@@ -1,3 +1,4 @@
+// File: src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -9,6 +10,7 @@ import Register from "./pages/Register";
 import Settings from "./pages/Settings";
 import Faq from "./pages/Faq";
 import Mission from "./pages/Mission";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -36,6 +38,14 @@ function App() {
           />
           <Route path="/faq" element={<Faq />} />
           <Route path="/mission" element={<Mission />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </AuthProvider>
     </Router>
