@@ -6,5 +6,5 @@ numpy
 scikit-learn
 faiss-cpu
 openai
-python-dotenv  #For env file
+python-dotenv  
 

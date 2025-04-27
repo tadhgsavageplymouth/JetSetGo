@@ -1,4 +1,3 @@
-// client/src/pages/Settings.js
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import styles from "./Settings.module.css";

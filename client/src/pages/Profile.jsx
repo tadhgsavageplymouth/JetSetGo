@@ -1,4 +1,3 @@
-// File: src/pages/Profile.jsx
 import React, { useState, useEffect } from "react";
 import styles from "./Profile.module.css";
 import { useAuth } from "../contexts/AuthContext";

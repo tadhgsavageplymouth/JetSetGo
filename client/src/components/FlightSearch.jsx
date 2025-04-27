@@ -1,4 +1,3 @@
-// File: client/src/components/FlightSearch.jsx
 import React, { useState, useEffect } from "react";
 import styles from "./FlightSearch.module.css";
 import { useAuth } from "../contexts/AuthContext";
@@ -31,7 +30,6 @@ export default function FlightSearch() {
   const [visaText, setVisaText] = useState("");
   const [passportCountry, setPassportCountry] = useState("");
 
-  // load passport country
   useEffect(() => {
     if (!currentUser) return;
     getDoc(doc(db, "profiles", currentUser.uid)).then(snap => {
@@ -39,7 +37,6 @@ export default function FlightSearch() {
     });
   }, [currentUser]);
 
-  // fetch visa info when flight selected
   useEffect(() => {
     if (!selectedFlight || !passportCountry) return;
     (async () => {

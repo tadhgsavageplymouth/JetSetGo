@@ -20,7 +20,6 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading]         = useState(true);
 
-  // Register now accepts name, email, password
   function register(name, email, password) {
     return createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => updateProfile(user, { displayName: name }));

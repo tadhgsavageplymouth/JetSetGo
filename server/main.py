@@ -1,5 +1,3 @@
-# File: server/main.py
-
 import os
 import calendar
 from dotenv import load_dotenv
@@ -14,29 +12,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 
-# ─── Load env & OpenAI ─────────────────────────────────────────────
-load_dotenv()  # loads from server/.env if present
+load_dotenv() 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 if not openai.api_key:
     raise RuntimeError("OPENAI_API_KEY not set in environment")
 
-# ─── FastAPI setup ───────────────────────────────────────────────────
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # in production, restrict to your client URL(s)
+    allow_origins=["*"],  
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ─── Load & index flights data once at startup ──────────────────────
 CSV_PATH = os.path.expanduser(
     "~/Desktop/COMP3000/JetSetGo/synthetic_weighted_global_flights_50k.csv"
 )
 df = pd.read_csv(CSV_PATH)
 df["departure_datetime"] = pd.to_datetime(df["departure_datetime"], errors="coerce")
 
-# prune rows missing any required fields
 df = df.dropna(
     subset=[
         "origin_city",
@@ -47,14 +41,12 @@ df = df.dropna(
     ]
 ).reset_index(drop=True)
 
-# feature engineering
 df["price_log"] = np.log1p(df["price_gbp"])
 encoder = OneHotEncoder(sparse_output=False).fit(df[["Holiday Type"]])
 scaler = MinMaxScaler().fit(df[["price_log", "destination_temp_c"]])
 
 holiday_enc_full = encoder.transform(df[["Holiday Type"]])
 num_scaled_full = scaler.transform(df[["price_log", "destination_temp_c"]])
-# invert price dimension so cheaper flights are 'closer'
 num_scaled_full[:, 0] = 1 - num_scaled_full[:, 0]
 
 vectors_full = np.hstack([holiday_enc_full, num_scaled_full]).astype("float32")
@@ -71,24 +63,21 @@ holiday_options = [
 ]
 climate_map = {"hot": 28, "mild": 20, "cold": 10}
 
-# ─── Request models ──────────────────────────────────────────────────
 class SearchParams(BaseModel):
     origin_city: str
-    month: str        # e.g. "July"
+    month: str        
     year: int
     holiday_type: str
     max_price: float
-    climate: str      # "hot"|"mild"|"cold"
+    climate: str      
 
 class VisaQuery(BaseModel):
     origin_city: str
     destination_city: str
     passport_country: str
 
-# ─── /search endpoint ────────────────────────────────────────────────
 @app.post("/search")
 def search(params: SearchParams):
-    # validate
     if params.origin_city not in set(df["origin_city"]):
         raise HTTPException(400, "Unknown origin_city")
     if params.holiday_type not in holiday_options:
@@ -100,7 +89,6 @@ def search(params: SearchParams):
     except ValueError:
         raise HTTPException(400, "Invalid month name")
 
-    # filter by origin + month/year
     start = pd.Timestamp(f"{params.year}-{month_idx:02d}-01")
     end = (start + pd.offsets.MonthEnd(1)) + pd.Timedelta(days=1)
     mask = (
@@ -125,7 +113,6 @@ def search(params: SearchParams):
     qnum[0, 0] = 1 - qnum[0, 0]
     qvec = np.hstack([qcat, qnum]).astype("float32")
 
-    # nearest-neighbor among candidates
     cand_vectors = vectors_full[candidate_idxs]
     index = faiss.IndexFlatL2(vector_dim)
     index.add(cand_vectors)
@@ -133,7 +120,6 @@ def search(params: SearchParams):
     _, I = index.search(qvec, K)
     selected_idxs = candidate_idxs[I[0]]
 
-    # pick top-5 by price
     results_df = (
         df.iloc[selected_idxs]
         .sort_values("price_gbp")
@@ -148,13 +134,11 @@ def search(params: SearchParams):
         ]
     )
 
-    # serialize datetimes
     records = results_df.to_dict(orient="records")
     for r in records:
         r["departure_datetime"] = r["departure_datetime"].isoformat()
     return records
 
-# ─── /visa endpoint ──────────────────────────────────────────────────
 @app.post("/visa")
 def visa_requirements(q: VisaQuery):
     prompt = (
