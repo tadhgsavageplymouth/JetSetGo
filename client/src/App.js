@@ -2,17 +2,19 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Settings from "./pages/Settings";
 import Faq from "./pages/Faq";
+import Mission from "./pages/Mission";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
+        <Navbar />
         <Routes>
           <Route
             path="/"
@@ -32,8 +34,8 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* Public FAQ route */}
           <Route path="/faq" element={<Faq />} />
+          <Route path="/mission" element={<Mission />} />
         </Routes>
       </AuthProvider>
     </Router>

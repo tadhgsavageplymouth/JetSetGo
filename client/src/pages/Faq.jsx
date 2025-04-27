@@ -3,14 +3,9 @@ import Accordion from "../components/Accordion";
 import styles from "./Faq.module.css";
 
 const FAQ_DATA = [
-  {
-    question: "What is JetSetGo?",
-    answer: "JetSetGo is your all-in-one flight booking platform offering seamless private jet charters."
-  },
-  {
-    question: "How do I book a flight?",
-    answer: "To book, choose your route and dates, then submit the form—our team handles the rest."
-  },
+  { question: "What can I do on JetSetGo?", answer: "Search and book private jet flights tailored to your schedule and preferences." },
+  { question: "How do I customize my journey?", answer: "Use filters like departure date, budget, and climate to find the perfect trip." },
+  { question: "Is my data secure?", answer: "We use industry-standard encryption to keep your information safe." },
   // add more Q&A entries here
 ];
 
