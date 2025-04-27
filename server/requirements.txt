@@ -1,6 +1,10 @@
 fastapi
-uvicorn[standard]
+uvicorn
+pydantic
 pandas
 numpy
 scikit-learn
 faiss-cpu
+openai
+python-dotenv  #For env file
+

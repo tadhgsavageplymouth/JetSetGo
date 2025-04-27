@@ -1,54 +1,127 @@
+/* File: client/src/components/FlightSearch.module.css */
+
 .searchContainer {
-    margin-top: 2rem;
-  }
-  .form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .field {
-    display: flex;
-    flex-direction: column;
-  }
-  .input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  .error {
-    color: #d00;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-  .button {
-    grid-column: span 2;
-    padding: 0.75rem;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .button:disabled {
-    background-color: #888;
-    cursor: not-allowed;
-  }
-  .apiError {
-    margin-top: 1rem;
-    color: #d00;
-  }
-  .resultsTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1.5rem;
-  }
-  .resultsTable th,
-  .resultsTable td {
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: left;
-  }
-  .resultsTable th {
-    background-color: #f4f4f4;
-  }
-  
+  max-width: 1024px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--color-accent);
+  border-radius: 0.5rem;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroupFullWidth {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+.formLabel {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+}
+
+.formInput,
+.formSelect {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 0.25rem;
+}
+
+.formInput:focus,
+.formSelect:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 1px rgba(135, 168, 197, 0.5);
+}
+
+.formError {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: red;
+}
+
+.button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-accent);
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:hover:not(:disabled) {
+  background-color: var(--color-secondary);
+}
+
+.apiError {
+  margin-top: 1rem;
+  color: red;
+  text-align: center;
+}
+
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+.resultsTable th,
+.resultsTable td {
+  border: 1px solid var(--color-primary);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.selectButton {
+  padding: 0.3rem 0.6rem;
+  background-color: var(--color-secondary);
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.selectButton:hover {
+  background-color: var(--color-primary);
+}
+
+.selectedRow {
+  background-color: rgba(28, 55, 90, 0.1);
+}
+
+.visaSection {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-primary);
+  border-radius: 0.5rem;
+}
+
+.visaSection h3 {
+  margin-top: 0;
+  color: var(--color-dark);
+}
+
+.visaText {
+  white-space: pre-wrap;
+  font-family: inherit;
+  margin-top: 0.5rem;
+}
