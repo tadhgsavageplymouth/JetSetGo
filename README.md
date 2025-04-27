@@ -133,4 +133,4 @@ Questions, ideas, or feedback? Feel free to get in touch via the GitHub Issues p
 
 ---
 
-# ✈️ Let JetSetGo take you places you never expected — smarter, faster, happier!
+## ✈️ Let JetSetGo take you places you never expected — smarter, faster, happier!
