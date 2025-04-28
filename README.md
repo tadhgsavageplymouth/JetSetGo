@@ -5,6 +5,10 @@ Rather than choosing your destination first, simply tell us what *you* want — 
 
 JetSetGo even checks visa and passport requirements for you, ensuring every journey suggestion is realistic and tailored to your needs.  
 
+## Supervisor 
+## Dr Asad Asad
+## muhammad.asad@plymouth.ac.uk
+
 ---
 
 ## ✨ Features
